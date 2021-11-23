@@ -19,7 +19,7 @@ strip.begin()
 
 # Define function to wipe all LED data
 def colorWipe(strip, color, wait_ms=50):
-    for i in range(strip.numPixels()):
+    for i in range(LED_COUNT):
         strip.setPixelColor(i, color)
         strip.show()
         time.sleep(wait_ms/1000.0)
@@ -42,7 +42,7 @@ while True:
     elif k%256 == 32:  
         colorWipe(strip, Color(0,0,0), 10)
         cv2.destroyAllWindows()
-        for i in range(100):
+        for i in range(LED_COUNT):
             print('Buffering frame... ')
             ret, frame = cam.read()
             if not ret:
