@@ -1,13 +1,21 @@
 import cv2
 from time import sleep
 
+from Calibrate import LED_COUNT
+
 cam = cv2.VideoCapture(0)
+cam.set(3, 1280)  
+cam.set(4, 720) 
+cam.set(cv2.CAP_PROP_AUTOFOCUS, 0) 
+cam.set(cv2.CAP_PROP_BRIGHTNESS, 0.1) 
+cam.set(cv2.CAP_PROP_EXPOSURE, 0.1)
 
 scanRadius = 3
 similarity = 20
+sleepTime = 0.5
 coordList = []
 
-LED_COUNT = 10
+LED_COUNT = 32
 
 print("Press Space Bar to Start")
 
@@ -16,11 +24,11 @@ while True:
     if not ret:
         print("Failed to grab frame, closing...")
         break
+    cv2.normalize(frame, frame, 0, 255, cv2.NORM_MINMAX)
     cv2.imshow("Calibrate", frame)
 
     k = cv2.waitKey(1)
     if k%256 == 27:
-        # ESC pressed
         print("Escape hit, closing...")
         break
     elif k%256 == 32:  
@@ -35,8 +43,9 @@ while True:
                     if not ret:
                         print("Failed to grab frame, closing...")
                         break
+                    cv2.normalize(frame, frame, 0, 255, cv2.NORM_MINMAX)
                     print('Turning on LED ' + str(i))
-                    sleep(2) # Sleep to let the camera focus
+                    sleep(sleepTime)
 
                     img_name = "calibrate_frame_XY_{}.png".format(i)
                     naive = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -67,7 +76,7 @@ while True:
                         print("Position Compare Out Of Range: {} \n".format(img_name))
                         cv2.imwrite("photos/"+img_name, frame)
                     print('Turning off LED ' + str(i))
-                    sleep(1)
+                    sleep(sleepTime)
             
             if c == 1:
                 input("Rotate the tree 90 degrees then press Enter...")
@@ -77,8 +86,9 @@ while True:
                     if not ret:
                         print("Failed to grab frame, closing...")
                         break
+                    cv2.normalize(frame, frame, 0, 255, cv2.NORM_MINMAX)
                     print('Turning on LED ' + str(i))
-                    sleep(1)
+                    sleep(sleepTime)
 
                     img_name = "calibrate_frame_Z_{}.png".format(i)
                     naive = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -111,5 +121,5 @@ while True:
                         print("Position Compare Out Of Range: {} \n".format(img_name))
                         cv2.imwrite("photos/"+img_name, frame)
                     print('Turning off LED ' + str(i))
-                    sleep(1)
+                    sleep(sleepTime)
         
