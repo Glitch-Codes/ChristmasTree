@@ -74,7 +74,7 @@ while True:
                         cv2.putText(frame,str(robustPos[3]), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 100, 0))
                         coordList.insert(len(coordList),str(robustPos[3]).replace("(", "[").replace(")", ""))
                         cv2.imwrite("photos/"+img_name, frame)
-                        print("{} written!".format(img_name))
+                        print("Position Compare Success: {} \n".format(img_name))
                     else: 
                         cv2.circle(frame, naivePos[3], 1, (0, 255, 0), 2)
                         cv2.line(frame, naivePos[3], (naivePos[3][0], 0), (0, 255, 0), 1)
@@ -85,7 +85,7 @@ while True:
                         cv2.putText(frame, "Naive: " + str(naivePos[3]), (10, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
                         cv2.putText(frame, "Robust: " + str(robustPos[3]), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 100, 0))
                         coordList.insert(len(coordList),str(robustPos[3]).replace("(", "[").replace(")", ""))
-                        print("Position Compare Out Of Range: Check {} for details\n".format(img_name))
+                        print("Position Compare Out Of Range: {} \n".format(img_name))
                         cv2.imwrite("photos/"+img_name, frame)
                     print('Turning off LED ' + str(i))
                     strip.setPixelColor(i, Color(0,0,0))
